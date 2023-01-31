@@ -8,18 +8,18 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "keyword")
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class Keyword {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private int id;
+  private Long id;
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "created_at")
@@ -31,25 +31,20 @@ public class User {
   @LastModifiedDate
   private Date updatedAt;
 
-  @Column(name = "email", unique = true)
-  private String email;
+  @Column(name = "value")
+  private String value;
 
-  @Column(name = "password")
-  private String password;
+  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(name = "card_keyword", joinColumns = @JoinColumn(name = "keyword_id"), inverseJoinColumns = @JoinColumn(name = "card_id"))
+  private List<Card> cards;
 
-  @Enumerated(EnumType.STRING)
-  @Column(name = "role")
-  private Role role = Role.user;
-
-  public User(String email, String password) {
-    this.email = email;
-    this.password = password;
+  public Keyword(String value) {
+    this.value = value;
   }
 
-  public User(String email, String password, Role role) {
-    this.email = email;
-    this.password = password;
-    this.role = role;
+  public Keyword(String keyword, Card card) {
+
   }
 
 }
+

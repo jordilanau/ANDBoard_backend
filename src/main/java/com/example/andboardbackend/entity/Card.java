@@ -1,15 +1,20 @@
 package com.example.andboardbackend.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "card")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Card {
 
@@ -18,11 +23,15 @@ public class Card {
   @Column(name = "id")
   private int id;
 
-  @Column(name = "createdAt")
-  private LocalDateTime createdAt = LocalDateTime.now();
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "created_at")
+  @CreatedDate
+  private Date createdAt;
 
-  @Column(name = "updatedAt")
-  private LocalDateTime updatedAt;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "updated_at")
+  @LastModifiedDate
+  private Date updatedAt;
 
   @Column(name = "category")
   private String category;
@@ -36,21 +45,27 @@ public class Card {
   @Column(name = "link")
   private String link;
 
-  @Column(name = "keywords")
-  private List<String> keywords;
+  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(name = "card_keyword", joinColumns = @JoinColumn(name = "card_id"), inverseJoinColumns = @JoinColumn(name = "keyword_id"))
+  private List<Keyword> keywords;
 
-  @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinColumn(name = "iconId")
+  @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinColumn(name = "icon_id")
   private Icon icon;
 
-  public Card(String category, String title, String description, String link, List<String> keywords, Icon icon) {
-    this.updatedAt = LocalDateTime.now();
+  public Card(String category, String title, String description, String link, Icon icon) {
     this.category = category;
     this.title = title;
     this.description = description;
     this.link = link;
-    this.keywords = keywords;
     this.icon = icon;
+  }
+
+  public void addKeyword(Keyword keyword) {
+    if (keywords == null) {
+      keywords = new ArrayList<>();
+    }
+    keywords.add(keyword);
   }
 
 }
