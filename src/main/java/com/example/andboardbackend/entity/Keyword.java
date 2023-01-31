@@ -5,10 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,21 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Keyword {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "created_at", nullable = false, updatable = false)
-  @CreationTimestamp
-  private Date createdAt;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "updated_at")
-  @UpdateTimestamp
-  private Date updatedAt;
+public class Keyword extends BaseEntity {
 
   @Column(name = "value")
   private String value;
@@ -41,11 +24,8 @@ public class Keyword {
   private List<Card> cards;
 
   public Keyword(String value) {
+    super();
     this.value = value;
-  }
-
-  public Keyword(String keyword, Card card) {
-
   }
 
 }

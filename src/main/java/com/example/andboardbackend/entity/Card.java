@@ -4,11 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,22 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Card {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private int id;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "created_at", nullable = false, updatable = false)
-  @CreationTimestamp
-  private Date createdAt;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "updated_at")
-  @UpdateTimestamp
-  private Date updatedAt;
+public class Card extends BaseEntity {
 
   @Column(name = "category")
   private String category;
@@ -54,6 +36,7 @@ public class Card {
   private Icon icon;
 
   public Card(String category, String title, String description, String link, Icon icon) {
+    super();
     this.category = category;
     this.title = title;
     this.description = description;
