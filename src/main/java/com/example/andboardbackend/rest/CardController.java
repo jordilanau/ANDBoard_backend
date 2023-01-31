@@ -47,8 +47,16 @@ public class CardController {
 
   @GetMapping("/cards/search")
   public List<Card> searchCards(@RequestParam String input) {
-    System.out.println("inside search: " + input);
     return cardService.searchCards(input);
+  }
+
+  @GetMapping("/cards/searchByKeyword")
+  public List<Card> findAllByKeywords(@RequestParam String keyword) {
+    Optional<Keyword> keywordResult = keywordService.findKeywordByValue(keyword);
+    if (keywordResult.isPresent()) {
+      return cardService.findAllByKeywords(keywordResult.get());
+    }
+    return new ArrayList<>();
   }
 
   @PostMapping("/cards")

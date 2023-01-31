@@ -1,6 +1,7 @@
 package com.example.andboardbackend.service;
 
 import com.example.andboardbackend.entity.Card;
+import com.example.andboardbackend.entity.Keyword;
 
 import java.util.List;
 
@@ -11,5 +12,6 @@ public interface CardService {
   void saveCard(Card card);
   void deleteCardById(int cardId);
   List<Card> searchCards(String search);
+  List<Card> findAllByKeywords(Keyword keyword);
 
 }

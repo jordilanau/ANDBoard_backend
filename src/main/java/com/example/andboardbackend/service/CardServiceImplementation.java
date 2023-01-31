@@ -1,6 +1,7 @@
 package com.example.andboardbackend.service;
 
 import com.example.andboardbackend.entity.Card;
+import com.example.andboardbackend.entity.Keyword;
 import com.example.andboardbackend.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,11 @@ public class CardServiceImplementation implements CardService {
   public List<Card> searchCards(String search) {
     return cardRepository.findAllByCategoryContainsIgnoreCaseOrTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCaseOrLinkContainsIgnoreCase(
             search, search, search, search);
+  }
+
+  @Override
+  public List<Card> findAllByKeywords(Keyword keyword) {
+    return cardRepository.findAllByKeywords(keyword);
   }
 
 }
