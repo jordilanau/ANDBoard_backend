@@ -10,5 +10,6 @@ public interface CardService {
   Card findCardById(int cardId);
   void saveCard(Card card);
   void deleteCardById(int cardId);
+  List<Card> searchCards(String search);
 
 }

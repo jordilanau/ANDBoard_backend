@@ -45,6 +45,12 @@ public class CardController {
     return card;
   }
 
+  @GetMapping("/cards/search")
+  public List<Card> searchCards(@RequestParam String input) {
+    System.out.println("inside search: " + input);
+    return cardService.searchCards(input);
+  }
+
   @PostMapping("/cards")
   public Card addCard(@RequestBody HashMap<String, String> requestData) {
     Card card = new Card(requestData.get("category"), requestData.get("title"), requestData.get("description"),

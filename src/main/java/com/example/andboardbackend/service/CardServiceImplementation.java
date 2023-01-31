@@ -42,4 +42,10 @@ public class CardServiceImplementation implements CardService {
     cardRepository.deleteById(cardId);
   }
 
+  @Override
+  public List<Card> searchCards(String search) {
+    return cardRepository.findAllByCategoryContainsIgnoreCaseOrTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCaseOrLinkContainsIgnoreCase(
+            search, search, search, search);
+  }
+
 }
