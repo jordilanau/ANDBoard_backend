@@ -1,21 +1,32 @@
 package com.example.andboardbackend.rest;
 
 import com.example.andboardbackend.entity.Card;
+import com.example.andboardbackend.entity.Icon;
+import com.example.andboardbackend.entity.Keyword;
 import com.example.andboardbackend.service.CardService;
+import com.example.andboardbackend.service.IconService;
+import com.example.andboardbackend.service.KeywordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
 public class CardController {
 
   private final CardService cardService;
+  private final KeywordService keywordService;
+  private final IconService iconService;
 
   @Autowired
-  public CardController(CardService cardService) {
+  public CardController(CardService cardService, KeywordService keywordService, IconService iconService) {
     this.cardService = cardService;
+    this.keywordService = keywordService;
+    this.iconService = iconService;
   }
 
   @GetMapping("/cards")
@@ -35,7 +46,25 @@ public class CardController {
   }
 
   @PostMapping("/cards")
-  public Card addCard(@RequestBody Card card) {
+  public Card addCard(@RequestBody HashMap<String, String> requestData) {
+    Card card = new Card(requestData.get("category"), requestData.get("title"), requestData.get("description"),
+                         requestData.get("link"));
+    Optional<Icon> iconResult = iconService.findIconByCategory(requestData.get("category"));
+    if (iconResult.isPresent()) {
+      card.setIcon(iconResult.get());
+    }
+    String[] keywords = requestData.get("keywords").split(",");
+    List<Keyword> keywordsList = new ArrayList<>();
+    for (String input : keywords) {
+      Optional<Keyword> keywordResult = keywordService.findKeywordByValue(input.trim());
+      if (keywordResult.isPresent()) {
+        keywordsList.add(keywordResult.get());
+      } else {
+        keywordsList.add(new Keyword(input.trim()));
+      }
+    }
+    card.setKeywords(keywordsList);
+
     // in case an id is passed in the body of the request, set id to 0
     // this if to force a save of a new item instead of update
     card.setId(0);

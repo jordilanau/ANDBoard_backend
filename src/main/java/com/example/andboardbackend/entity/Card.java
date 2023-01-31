@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,13 +24,13 @@ public class Card {
   private int id;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "created_at")
-  @CreatedDate
+  @Column(name = "created_at", nullable = false, updatable = false)
+  @CreationTimestamp
   private Date createdAt;
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "updated_at")
-  @LastModifiedDate
+  @UpdateTimestamp
   private Date updatedAt;
 
   @Column(name = "category")
@@ -59,6 +59,14 @@ public class Card {
     this.description = description;
     this.link = link;
     this.icon = icon;
+  }
+
+  public Card(String category, String title, String description, String link) {
+    this.category = category;
+    this.title = title;
+    this.description = description;
+    this.link = link;
+    this.keywords = new ArrayList<>();
   }
 
   public void addKeyword(Keyword keyword) {

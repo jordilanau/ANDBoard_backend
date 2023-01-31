@@ -1,11 +1,12 @@
 package com.example.andboardbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 import java.util.List;
@@ -22,13 +23,13 @@ public class Keyword {
   private Long id;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "created_at")
-  @CreatedDate
+  @Column(name = "created_at", nullable = false, updatable = false)
+  @CreationTimestamp
   private Date createdAt;
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "updated_at")
-  @LastModifiedDate
+  @UpdateTimestamp
   private Date updatedAt;
 
   @Column(name = "value")
@@ -36,6 +37,7 @@ public class Keyword {
 
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
   @JoinTable(name = "card_keyword", joinColumns = @JoinColumn(name = "keyword_id"), inverseJoinColumns = @JoinColumn(name = "card_id"))
+  @JsonIgnore
   private List<Card> cards;
 
   public Keyword(String value) {

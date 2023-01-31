@@ -42,4 +42,9 @@ public class IconServiceImplementation implements IconService {
     iconRepository.deleteById(iconId);
   }
 
+  @Override
+  public Optional<Icon> findIconByCategory(String category) {
+    return iconRepository.findIconByCategory(category);
+  }
+
 }
