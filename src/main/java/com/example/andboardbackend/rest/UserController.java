@@ -34,17 +34,7 @@ public class UserController {
     return user;
   }
 
-  @PostMapping("/users")
-  public User addUser(@RequestBody User user) {
-    // in case an id is passed in the body of the request, set id to 0
-    // this if to force a save of a new item instead of update
-    user.setId(0);
-
-    userService.saveUser(user);
-    return user;
-  }
-
-  @DeleteMapping("/Users/{userId}")
+  @DeleteMapping("/users/{userId}")
   public void deleteUserById(@PathVariable int userId) {
     User user = userService.findUserById(userId);
 
