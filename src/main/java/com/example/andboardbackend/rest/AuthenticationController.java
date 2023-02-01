@@ -2,8 +2,8 @@ package com.example.andboardbackend.rest;
 
 import com.example.andboardbackend.auth.AuthenticationRequest;
 import com.example.andboardbackend.auth.AuthenticationResponse;
-import com.example.andboardbackend.auth.AuthenticationService;
 import com.example.andboardbackend.auth.RegisterRequest;
+import com.example.andboardbackend.service.AuthenticationServiceImplementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-  private final AuthenticationService authenticationService;
+  private final AuthenticationServiceImplementation authenticationService;
 
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {

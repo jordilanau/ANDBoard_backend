@@ -1,5 +1,8 @@
-package com.example.andboardbackend.auth;
+package com.example.andboardbackend.service;
 
+import com.example.andboardbackend.auth.AuthenticationRequest;
+import com.example.andboardbackend.auth.AuthenticationResponse;
+import com.example.andboardbackend.auth.RegisterRequest;
 import com.example.andboardbackend.config.JwtService;
 import com.example.andboardbackend.entity.User;
 import com.example.andboardbackend.repository.UserRepository;
@@ -11,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationServiceImplementation implements AuthenticationService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
