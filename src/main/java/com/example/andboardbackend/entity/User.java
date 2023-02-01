@@ -1,5 +1,6 @@
 package com.example.andboardbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class User extends BaseEntity {
   private String email;
 
   @Column(name = "password")
+  @JsonIgnore
   private String password;
 
   @Enumerated(EnumType.STRING)

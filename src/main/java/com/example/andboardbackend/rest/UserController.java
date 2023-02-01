@@ -20,7 +20,6 @@ public class UserController {
 
   @GetMapping("/users")
   public List<User> findAllUsers() {
-    System.out.println("inside controller");
     return userService.findAllUsers();
   }
 

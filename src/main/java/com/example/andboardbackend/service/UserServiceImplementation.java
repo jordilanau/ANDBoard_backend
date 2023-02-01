@@ -20,7 +20,6 @@ public class UserServiceImplementation implements UserService {
 
   @Override
   public List<User> findAllUsers() {
-    System.out.println("inside user service");
     return userRepository.findAll();
   }
 
