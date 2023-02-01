@@ -14,6 +14,10 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
           String category, String title, String description,
           String link);
 
+  List<Card> findAllByCategoryContainsIgnoreCaseOrTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCaseOrLinkContainsIgnoreCaseOrKeywords(
+          String category, String title, String description,
+          String link, Keyword keyword);
+
   List<Card> findAllByKeywords(Keyword keyword);
 
 }

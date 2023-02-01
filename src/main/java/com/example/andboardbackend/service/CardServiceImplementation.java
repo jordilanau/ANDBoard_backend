@@ -50,6 +50,12 @@ public class CardServiceImplementation implements CardService {
   }
 
   @Override
+  public List<Card> searchCards(String search, Keyword keyword) {
+    return cardRepository.findAllByCategoryContainsIgnoreCaseOrTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCaseOrLinkContainsIgnoreCaseOrKeywords(
+            search, search, search, search, keyword);
+  }
+
+  @Override
   public List<Card> findAllByKeywords(Keyword keyword) {
     return cardRepository.findAllByKeywords(keyword);
   }

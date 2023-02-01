@@ -47,6 +47,10 @@ public class CardController {
 
   @GetMapping("/cards/search")
   public List<Card> searchCards(@RequestParam String input) {
+    Optional<Keyword> result = keywordService.findKeywordByValue(input);
+    if (result.isPresent()) {
+      return cardService.searchCards(input, result.get());
+    }
     return cardService.searchCards(input);
   }
 
