@@ -3,6 +3,7 @@ package com.example.andboardbackend.rest;
 import com.example.andboardbackend.entity.Card;
 import com.example.andboardbackend.entity.Icon;
 import com.example.andboardbackend.entity.Keyword;
+import com.example.andboardbackend.exception.ResourceNotFoundException;
 import com.example.andboardbackend.service.CardService;
 import com.example.andboardbackend.service.IconService;
 import com.example.andboardbackend.service.KeywordService;
@@ -39,7 +40,7 @@ public class CardController {
     Card card = cardService.findCardById(cardId);
 
     if (card == null) {
-      throw new RuntimeException("Card id not found: " + cardId);
+      throw new ResourceNotFoundException("Resource not found");
     }
 
     return card;
@@ -96,7 +97,7 @@ public class CardController {
     Card card = cardService.findCardById(cardId);
 
     if (card == null) {
-      throw new RuntimeException("Card id not found: " + cardId);
+      throw new ResourceNotFoundException("Resource not found");
     }
 
     cardService.deleteCardById(cardId);

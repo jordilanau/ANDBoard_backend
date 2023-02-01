@@ -5,12 +5,15 @@ import com.example.andboardbackend.auth.AuthenticationResponse;
 import com.example.andboardbackend.auth.RegisterRequest;
 import com.example.andboardbackend.config.JwtService;
 import com.example.andboardbackend.entity.User;
+import com.example.andboardbackend.exception.ResourceNotFoundException;
 import com.example.andboardbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,9 +39,13 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
     String password = request.getPassword();
     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 
-    User user = userRepository.findUserByEmail(email).orElseThrow();
-    String jwtToken = jwtService.generateToken(user);
-    return new AuthenticationResponse(jwtToken);
+    Optional<User> result = userRepository.findUserByEmail(email);
+    if (result.isPresent()) {
+      User user = result.get();
+      String jwtToken = jwtService.generateToken(user);
+      return new AuthenticationResponse(jwtToken);
+    }
+    throw new ResourceNotFoundException("Resource not found");
   }
 
 }

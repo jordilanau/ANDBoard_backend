@@ -1,6 +1,7 @@
 package com.example.andboardbackend.rest;
 
 import com.example.andboardbackend.entity.User;
+import com.example.andboardbackend.exception.ResourceNotFoundException;
 import com.example.andboardbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class UserController {
     User user = userService.findUserById(userId);
 
     if (user == null) {
-      throw new RuntimeException("User id not found: " + userId);
+      throw new ResourceNotFoundException("Resource not found");
     }
 
     return user;
@@ -39,7 +40,7 @@ public class UserController {
     User user = userService.findUserById(userId);
 
     if (user == null) {
-      throw new RuntimeException("User id not found: " + userId);
+      throw new ResourceNotFoundException("Resource not found");
     }
 
     userService.deleteUserById(userId);

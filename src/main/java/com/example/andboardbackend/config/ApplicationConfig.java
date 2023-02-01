@@ -8,8 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -21,8 +21,16 @@ public class ApplicationConfig {
 
   @Bean
   UserDetailsService userDetailsService() {
-    return username -> userRepository.findUserByEmail(username)
-                                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    return new UserDetailsService() {
+      @Override
+      public UserDetails loadUserByUsername(String username) {
+        try {
+          return userRepository.findUserByEmail(username).orElse(null);
+        } catch (Exception exc) {
+          throw new RuntimeException(exc.getMessage());
+        }
+      }
+    };
   }
 
   @Bean
@@ -34,8 +42,12 @@ public class ApplicationConfig {
   }
 
   @Bean
-  AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-    return config.getAuthenticationManager();
+  AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
+    try {
+      return config.getAuthenticationManager();
+    } catch (Exception exc) {
+      throw new RuntimeException(exc.getMessage());
+    }
   }
 
   @Bean

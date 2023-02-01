@@ -1,6 +1,7 @@
 package com.example.andboardbackend.rest;
 
 import com.example.andboardbackend.entity.Icon;
+import com.example.andboardbackend.exception.ResourceNotFoundException;
 import com.example.andboardbackend.service.IconService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class IconController {
     Icon icon = iconService.findIconById(iconId);
 
     if (icon == null) {
-      throw new RuntimeException("Icon id not found: " + iconId);
+      throw new ResourceNotFoundException("Resource not found");
     }
 
     return icon;
@@ -49,7 +50,7 @@ public class IconController {
     Icon icon = iconService.findIconById(iconId);
 
     if (icon == null) {
-      throw new RuntimeException("Icon id not found: " + iconId);
+      throw new ResourceNotFoundException("Resource not found");
     }
 
     iconService.deleteIconById(iconId);
