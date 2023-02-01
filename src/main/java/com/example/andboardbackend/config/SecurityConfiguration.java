@@ -1,8 +1,10 @@
 package com.example.andboardbackend.config;
 
+import com.example.andboardbackend.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,6 +27,8 @@ public class SecurityConfiguration {
         .authorizeHttpRequests()
         .requestMatchers("/api/auth/**")
         .permitAll() // allow any requests in the matchers above
+        .requestMatchers(HttpMethod.POST, "/api/cards").hasRole(Role.admin.name())
+        .requestMatchers(HttpMethod.DELETE, "/api/cards/**").hasRole(Role.admin.name())
         .anyRequest()
         .authenticated() // any other requests should be authenticated
         .and()
