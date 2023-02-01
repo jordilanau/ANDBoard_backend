@@ -32,10 +32,11 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
-    authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+    String email = request.getEmail();
+    String password = request.getPassword();
+    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 
-    User user = userRepository.findUserByEmail(request.getEmail()).orElseThrow();
+    User user = userRepository.findUserByEmail(email).orElseThrow();
     String jwtToken = jwtService.generateToken(user);
     return new AuthenticationResponse(jwtToken);
   }
