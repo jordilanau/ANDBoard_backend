@@ -39,14 +39,14 @@ public class JwtService {
 
     Map<String, String> claims = new HashMap<>();
     claims.put("role", role);
-    claims.put("email", userDetails.getUsername());
 
-    return generateToken(claims);
+    return generateToken(claims, userDetails);
   }
 
-  public String generateToken(Map<String, String> claims) {
+  public String generateToken(Map<String, String> claims, UserDetails userDetails) {
     return Jwts.builder()
                .setClaims(claims)
+               .setSubject(userDetails.getUsername())
                .setIssuedAt(new Date(System.currentTimeMillis()))
                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
