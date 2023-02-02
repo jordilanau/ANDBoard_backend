@@ -34,7 +34,7 @@ public class User extends BaseEntity implements UserDetails {
     super();
     this.email = email;
     this.password = password;
-    this.role = Role.user;
+    this.role = Role.USER;
   }
 
   public User(String email, String password, Role role) {
