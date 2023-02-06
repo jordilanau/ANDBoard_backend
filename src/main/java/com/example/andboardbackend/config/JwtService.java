@@ -35,7 +35,7 @@ public class JwtService {
     String role = userDetails.getAuthorities()
                              .stream()
                              .map(GrantedAuthority::getAuthority)
-                             .toList().toString();
+                             .toList().get(0);
 
     Map<String, String> claims = new HashMap<>();
     claims.put("role", role);
